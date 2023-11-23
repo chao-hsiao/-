@@ -3,7 +3,6 @@
 2. install docker
 3. start the docker server
 4. run the command `docker-compose up -d` in the 'docker' directory to start the web server
-
-site entry -> http://localhost:5000/
+5. site entry -> http://localhost:5000/
 # Describtion of the web application functionality
 1.
