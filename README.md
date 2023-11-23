@@ -5,5 +5,5 @@
 4. run the command ''docker-compose up -d'' in the docker directory to start the web server
 
 site entry -> http://localhost:5000/
-# describtion of the web application functionality
+# Describtion of the web application functionality
 1.
