@@ -6,4 +6,4 @@
 5. site entry -> http://localhost:5000/
 # Describtion of the web application functionality
   we use ***docker + python + mysql*** to functionize the application
-1. lll
+1. ...
