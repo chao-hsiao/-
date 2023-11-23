@@ -1,4 +1,4 @@
-# To-start the web server
+# To start the web server
 1. download the reprositoy
 2. install docker
 3. start the docker server
