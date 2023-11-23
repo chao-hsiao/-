@@ -1,7 +1,7 @@
 # To start the web server
 1. download the reprositoy
-2. install docker
-3. start the docker server
+2. install docker `sudo apt-get install docker.io`
+3. start the docker server `sudo systemctl start docker`
 4. run the command `docker-compose up -d` in the 'docker-compose' directory to start the web server
 5. site entry -> http://localhost:5000/
 # Describtion of the web application functionality
