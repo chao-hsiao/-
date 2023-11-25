@@ -2,8 +2,9 @@ from flask import Flask, jsonify, render_template
 import mysql.connector
 import json
 import os
+# import init
 
-app = Flask(__name__, template_folder='../webserver')
+app = Flask(__name__, template_folder='/webserver')
 
 # Retrieve database credentials from environment variables
 db_host = os.getenv('MYSQL_HOST')  # Name of the environment variable for the database host
@@ -19,7 +20,8 @@ def get_db_connection():
             host=db_host,
             user=db_user,
             passwd=db_password,
-            database=db_name
+            database=db_name,
+            allow_local_infile=True
         )
     except mysql.connector.Error as e:
         print(f"Error connecting to MySQL: {e}")
@@ -28,13 +30,13 @@ def get_db_connection():
 # Define a route for the API
 @app.route('/')
 def home():
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor(dictionary=True)
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
         cursor.execute('SELECT * FROM taiwan_cities;')  # Replace with your actual table name
         results = cursor.fetchall()
         cursor.close()
-        conn.close()
+        connection.close()
         return render_template('index.html')
     else:
         return "Failed to connect to the database", 500
