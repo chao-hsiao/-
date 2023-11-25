@@ -10,7 +10,6 @@ sudo apt-get install docker.io -y
 sudo systemctl start docker
 
 # Navigate to the docker-compose directory and start the web server
-cd /path/to/project/docker-compose  # Replace with your actual docker-compose directory path
 sudo docker-compose up -d
 
 # Open MySQL server terminal
