@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecret
+      - MYSQL_DATABASE=mydatabase
+    volumes:
+      - db-data:/var/lib/mysql
+      - ../datasets:/var/lib/mysql-files/
+      - ../queries:/queries
+
   app:
     build: .
     ports:
@@ -14,18 +27,8 @@ services:
       - MYSQL_DB=mydatabase
     volumes:
       - ../webserver:/webserver
-
-  db:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysecret
-      - MYSQL_DATABASE=mydatabase
-    volumes:
-      - db-data:/var/lib/mysql
-      - ../import_data:/csv
+      # - ../queries:/queries
+      # - ../datasets:/datasets
 
 volumes:
   db-data:
