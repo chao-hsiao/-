@@ -25,8 +25,10 @@ sudo chmod +x /usr/local/bin/docker-compose
 # Start the Docker service
 sudo systemctl start docker
 
-# Start the web server
+# Navigate to the docker-compose directory and start the web server
 sudo docker-compose up -d
 
 # Open MySQL server terminal
-sudo docker exec -it docker-compose_db_1 mysql --local_infile=1 -u root -p mydatabase
+# Replace 'docker-compose_db_1' with your actual Docker MySQL container name
+# Replace 'mydatabase' with your actual database name
+sudo docker exec -it docker-compose_db_1 mysql --local_infile=1 -u root -pmysecret mydatabase -e "source /queries/create_tables.sql"
