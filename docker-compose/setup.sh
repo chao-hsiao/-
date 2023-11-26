@@ -31,4 +31,4 @@ sudo docker-compose up -d
 # Open MySQL server terminal
 # Replace 'docker-compose_db_1' with your actual Docker MySQL container name
 # Replace 'mydatabase' with your actual database name
-sudo docker exec -it docker-compose_db_1 mysql --local_infile=1 -u root -pmysecret mydatabase -e "source /queries/create_tables.sql"
+sudo docker exec -it docker-compose_db_1 mysql --local_infile=1 -u root -pmysecret mydatabase -e "source /queries/create_tables.sql;"
