@@ -23,7 +23,7 @@ show warnings;
 CREATE TABLE IF NOT EXISTS lvr_land_c (
     district_id INT,
     交易標的 VARCHAR(255) NOT NULL,
-    土地位置建物門牌 VARCHAR(255) NOT NULL,
+    土地位置建物門牌 VARCHAR(255) UNIQUE NOT NULL,
     土地面積平方公尺 DECIMAL(10, 2) NOT NULL,
     都市土地使用分區 ENUM('住','商','工','農','其他'),
     非都市土地使用分區 ENUM('特定農業區','一般農業區','工業區','鄉村區','森林區','山坡地保育區','風景區','國家公園區','河川區','海域區','特定專用區'),
