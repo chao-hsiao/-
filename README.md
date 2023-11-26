@@ -1,3 +1,4 @@
+we use ***docker + python + mysql*** to functionize the application
 # Initialization of the web server
 1. download the repositoy
 2. navigate to 'docker-compose' directory in the reposittory
@@ -8,5 +9,4 @@
 - docker-compose up -d
 - docker-compose down
 # Describtion of the web application functionality
-  we use ***docker + python + mysql*** to functionize the application
 1. ...
