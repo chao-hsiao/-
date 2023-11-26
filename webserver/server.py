@@ -33,11 +33,13 @@ def home():
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM taiwan_cities;')  # Replace with your actual table name
+        cursor.execute("SELECT * FROM taiwan_cities")  # Replace with your actual table name
         results = cursor.fetchall()
         cursor.close()
         connection.close()
-        return render_template('index.html')
+        data=jsonify(results)
+        # return data
+        return render_template('index.html',data=data)
     else:
         return "Failed to connect to the database", 500
 
