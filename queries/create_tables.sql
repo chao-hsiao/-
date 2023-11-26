@@ -23,7 +23,7 @@ show warnings;
 CREATE TABLE IF NOT EXISTS lvr_land_c (
     district_id INT,
     交易標的 VARCHAR(255) NOT NULL,
-    土地位置建物門牌 VARCHAR(255) UNIQUE NOT NULL,
+    土地位置建物門牌 VARCHAR(255) NOT NULL,
     土地面積平方公尺 DECIMAL(10, 2) NOT NULL,
     都市土地使用分區 ENUM('住','商','工','農','其他'),
     非都市土地使用分區 ENUM('特定農業區','一般農業區','工業區','鄉村區','森林區','山坡地保育區','風景區','國家公園區','河川區','海域區','特定專用區'),
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS lvr_land_c (
     車位面積平方公尺 DECIMAL(10, 2),
     車位總額元 INT UNSIGNED,
     備註 VARCHAR(255),
-    serial_number VARCHAR(255),
+    serial_number VARCHAR(255) NOT NULL,
     出租型態 ENUM('分租雅房','整棟(戶)出租','獨立套房','分租套房','分層出租'),
     有無管理員 BOOLEAN,
     租賃期間 VARCHAR(255),
@@ -58,7 +58,8 @@ CREATE TABLE IF NOT EXISTS lvr_land_c (
     租賃住宅服務 ENUM('一般轉租','社會住宅代管','一般代管','社會住宅包租轉租','一般包租'),
     city_id INT,
     FOREIGN KEY(district_id) REFERENCES taiwan_districts(district_id),
-    FOREIGN KEY(city_id) REFERENCES taiwan_cities(city_id)
+    FOREIGN KEY(city_id) REFERENCES taiwan_cities(city_id),
+    UNIQUE(serial_number,土地位置建物門牌)
 );
 show warnings;
 CREATE TABLE IF NOT EXISTS lvr_land_c_build (
@@ -81,7 +82,8 @@ CREATE TABLE IF NOT EXISTS lvr_land_c_land (
     權利人持分分母 INT UNSIGNED,
     權利人持分分子 INT UNSIGNED,
     移轉情形 VARCHAR(255),
-    地號 INT UNSIGNED NOT NULL
+    地號 INT UNSIGNED NOT NULL,
+    UNIQUE(serial_number,地號)
 );
 show warnings;
 CREATE TABLE IF NOT EXISTS lvr_land_c_park (
