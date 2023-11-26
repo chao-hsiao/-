@@ -1,5 +1,5 @@
 we use ***docker + python + mysql*** to functionize the application
-# Initialization of the web server
+# Initialization of the web server (one time running)
 1. download the repositoy
 2. navigate to 'docker-compose' directory in the reposittory
 3. make 'setup.sh' executable `chmod +x setup.sh`
