@@ -64,18 +64,61 @@ def results():
         'rental_type': request.form.get('rental_type'),
         'keyword': request.form.get('keyword')
     }
+
     # return render_template('results.html',results=data)
-    return jsonify(results)
-    # connection = get_db_connection()
-    # if connection:
-    #     cursor = connection.cursor(dictionary=True)
-    #     cursor.execute("SELECT * FROM taiwan_districts WHERE city_id = %s", (int(selected_city_id),))
-    #     results = cursor.fetchall()
-    #     cursor.close()
-    #     connection.close()
-    #     return jsonify(results)
-    # else:
-    #     return "Failed to connect to the database", 500
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(construct_query(results))
+        rows = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        
+        if not rows:
+            return "No data found for the given parameters.<br>" + construct_query(results)
+
+        # Constructing HTML table
+        table_html = "<table border='1'>"
+        table_html += "<tr>"
+        for header in rows[0].keys():
+            table_html += f"<th>{header}</th>"
+        table_html += "</tr>"
+
+        for row in rows:
+            table_html += "<tr>"
+            for cell in row.values():
+                table_html += f"<td>{cell}</td>"
+            table_html += "</tr>"
+        table_html += "</table>"
+
+        return table_html
+    else:
+        return "Failed to connect to the database", 500
+
+def construct_query(params):
+    base_query = "SELECT * FROM lvr_land_c"
+    conditions = []
+
+    if params['city']:
+        conditions.append(f"lvr_land_c.city_id = {params['city']}")
+
+    if params['district'] != '0':
+        conditions.append(f"lvr_land_c.district_id = {params['district']}")
+
+    if params['lowerprice'] and params['upperprice']:
+        conditions.append(f"lvr_land_c.總額元 BETWEEN {params['lowerprice']} AND {params['upperprice']}")
+
+    if params['lowerarea'] and params['upperarea']:
+        conditions.append(f"lvr_land_c.建物總面積平方公尺 BETWEEN {params['lowerarea']} AND {params['upperarea']}")
+
+    if params['rental_type'] != '0':
+        conditions.append(f"lvr_land_c.出租型態 = '{params['rental_type']}'")
+
+    if conditions:
+        base_query += " WHERE " + " AND ".join(conditions)
+
+    return base_query
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
