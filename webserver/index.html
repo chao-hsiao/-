@@ -4,111 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>租屋網</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="form-container">
-        <form>
+        <form action="results" method="post">
             <!-- Selectable Cells with Dropdowns -->
             <div class="dropdown-group">
+
                 <label for="select_city">區 域：</label>
-                <select id="select_city">
-                    <option value="1" selected="selected">台北市</option>
-                    <option value="2">基隆市</option>
-                    <option value="3">新北市</option>
-                    <option value="4">新竹市</option>
-                    <option value="5">新竹縣</option>
-                    <option value="6">桃園市</option>
-                    <option value="7">苗栗縣</option>
-                    <option value="8">台中市</option>
-                    <option value="10">彰化縣</option>
-                    <option value="11">南投縣</option>
-                    <option value="14">雲林縣</option>
-                    <option value="12">嘉義市</option>
-                    <option value="13">嘉義縣</option>
-                    <option value="15">台南市</option>
-                    <option value="17">高雄市</option>
-                    <option value="19">屏東縣</option>
-                    <option value="21">宜蘭縣</option>
-                    <option value="23">花蓮縣</option>
-                    <option value="22">台東縣</option>
-                    <option value="24">澎湖縣</option>
-                    <option value="25">金門縣</option>
-                    <option value="26">連江縣</option>
-                </select>
-
-                 - 
-
+                <br>城市
+                <select id="select_city" name="city"></select>
+                <script type="application/json" id="data">
+                    {{ data | tojson }}
+                </script>
                 <label for="select_district"></label>
-                <select id="select_district">
-                    <option value="0" selected="selected">請選擇</option>
-                    <option value="1">中正區</option>
-                    <option value="2">大同區</option>
-                    <option value="3">中山區</option>
-                    <option value="4">松山區</option>
-                    <option value="5">大安區</option>
-                    <option value="7">信義區</option>
-                    <option value="8">士林區</option>
-                    <option value="9">北投區</option>
-                    <option value="10">內湖區</option>
-                    <option value="11">南港區</option>
-                    <option value="6">萬華區</option>
-                    <option value="12">文山區</option>
-                </select>
+                <br>鄉鎮市區
+                <select id="select_district" name="district"></select>
             </div>
 
             <!-- Groups of Input Cells for Min and Max -->
             <div class="input-group">
-                <label> 租金(元)：</label>
-                <input type="text" id="lowerprice" name="lowerprice">
-                 ~ 
-                <input type="text" id="upperprice" name="upperprice">
+                <label> 租 金(元)：</label>
+                <input type="text" id="lowerprice" name="lowerprice" placeholder="最低價">
+                <input type="text" id="upperprice" name="upperprice" placeholder="最高價">
             </div>
 
             <div class="input-group">
                 <label>坪 數：</label>
-                <input type="text" id="lowerarea" name="lowerarea">
-                 ~ 
-                <input type="text" id="upperarea" name="upperarea">
+                <input type="text" id="lowerarea" name="lowerarea" placeholder="最小">
+                <input type="text" id="upperarea" name="upperarea" placeholder="最大">
             </div>
 
             <!-- Single Selectable Cell -->
             <div class="dropdown-single">
                 <label>類 型：</label>
-                <select id="usingtype">
-                    <option value="0">不限</option>
-                    <option value="11">住宅</option>
-                    <option value="12">套房</option>
-                    <option value="13">雅房</option>
-                    <option value="14">別墅</option>
-                    <option value="36">農舍</option>
-                    <option value="38">透天厝</option>
-                    <option value="20">店面</option>
-                    <option value="21">辦公</option>
-                    <option value="42">住辦</option>
-                    <option value="22">廠房</option>
-                    <option value="23">倉庫</option>
-                    <option value="25">土地</option>
-                    <option value="24">車位</option>
-                    <option value="34">法拍屋</option>
-                    <option value="40">廠辦</option>
-                    <option value="35">其他</option>
-                </select>
+                <select id="rental_type" name="rental_type"></select>
             </div>
 
             <!-- Single Input Cell -->
             <div class="input-single">
                 <label>關鍵字：</label>
-                <input type="text" id="keyword" name="keyword">(非必填)
+                (非必填)
+                <input type="text" id="keyword" name="keyword">
             </div>
 
             <!-- Submit Button -->
             <div class="submit-btn">
-                <button type="submit">搜尋</button>
+                <button type="submit" id="submitBtn" >搜尋</button>
             </div>
-            {{data.city_id}}
         </form>
     </div>
-    <script src='scripts.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="static/scripts.js"></script>
 </body>
 </html>
