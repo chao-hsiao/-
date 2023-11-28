@@ -72,8 +72,17 @@ function submit() {
     });
 }
 
+function addFunction() {
+    // Logic to handle 'Add'
+}
 
+function deleteFunction() {
+    // Logic to handle 'Delete'
+}
 
+function modifyFunction() {
+    // Logic to handle 'Modify'
+}
 
 
 
