@@ -26,14 +26,14 @@
             <!-- Groups of Input Cells for Min and Max -->
             <div class="input-group">
                 <label> 租 金(元)：</label>
-                <input type="text" id="lowerprice" name="lowerprice" placeholder="最低價">
-                <input type="text" id="upperprice" name="upperprice" placeholder="最高價">
+                <input type="text" id="lowerprice" name="lowerprice" placeholder="最低價" oninput="validateNumericInput('lowerprice')">
+                <input type="text" id="upperprice" name="upperprice" placeholder="最高價" oninput="validateNumericInput('upperprice')">
             </div>
 
             <div class="input-group">
                 <label>坪 數：</label>
-                <input type="text" id="lowerarea" name="lowerarea" placeholder="最小">
-                <input type="text" id="upperarea" name="upperarea" placeholder="最大">
+                <input type="text" id="lowerarea" name="lowerarea" placeholder="最小" oninput="validateNumericInput('lowerarea')">
+                <input type="text" id="upperarea" name="upperarea" placeholder="最大" oninput="validateNumericInput('upperarea')">
             </div>
 
             <!-- Single Selectable Cell -->
