@@ -72,6 +72,15 @@ function submit() {
     });
 }
 
+function validateNumericInput(id) {
+    var input = document.getElementById(id).value;
+    if (input && isNaN(input)) {
+        alert("請鍵入阿拉伯數字，例75000，勿輸入中英文字或全形符號");
+        document.getElementById(id).value = ''; // Reset the input field
+    }
+}
+
+
 function addFunction() {
     // Logic to handle 'Add'
 }
