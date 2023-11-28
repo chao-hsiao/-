@@ -119,6 +119,29 @@ def construct_query(params):
 
     return base_query
 
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    # Logic to add an item to the database
+    return jsonify({'status': 'success'})
+
+@app.route('/delete_item', methods=['POST'])
+def delete_item():
+    # Logic to delete an item from the database
+    return jsonify({'status': 'success'})
+
+@app.route('/modify_item', methods=['POST'])
+def modify_item():
+    # Logic to modify an item in the database
+    return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+
+
+
+
+
+
+
