@@ -83,6 +83,7 @@ function validateNumericInput(id) {
 
 function addFunction() {
     // Logic to handle 'Add'
+    window.location.href = 'add_data';
 }
 
 function deleteFunction() {
