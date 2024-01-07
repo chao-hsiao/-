@@ -50,27 +50,27 @@ for (var i = 0; i < rental_types.length; i++) {
 }
 
 // document.getElementById('submitBtn').addEventListener('click', function() {submit();});
-function submit() {
-    var return_results = {
-        city: document.getElementById('select_city').value,
-        district: document.getElementById('select_district').value,
-        lowerprice: document.getElementById('lowerprice').value,
-        upperprice: document.getElementById('upperprice').value,
-        lowerarea: document.getElementById('lowerarea').value,
-        upperarea: document.getElementById('upperarea').value,
-        rental_type: document.getElementById('rental_type').value
-    };
+// function submit() {
+//     var return_results = {
+//         city: document.getElementById('select_city').value,
+//         district: document.getElementById('select_district').value,
+//         lowerprice: document.getElementById('lowerprice').value,
+//         upperprice: document.getElementById('upperprice').value,
+//         lowerarea: document.getElementById('lowerarea').value,
+//         upperarea: document.getElementById('upperarea').value,
+//         rental_type: document.getElementById('rental_type').value
+//     };
 
-    fetch('/results', 
-    {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json',},
-        body: JSON.stringify(return_results)
-    })
-    .then(response => response.text())
-    .then(data => {console.log(data)
-    });
-}
+//     fetch('/results', 
+//     {
+//         method: 'POST',
+//         headers: {'Content-Type': 'application/json',},
+//         body: JSON.stringify(return_results)
+//     })
+//     .then(response => response.text())
+//     .then(data => {console.log(data)
+//     });
+// }
 
 function validateNumericInput(id) {
     var input = document.getElementById(id).value;
