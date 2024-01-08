@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS lvr_land_c_park (
     車位價格 INT UNSIGNED NOT NULL,
     車位面積平方公尺 DECIMAL(10, 2),
     車位所在樓層 VARCHAR(50)
+    UNIQUE(serial_number,車位類別,車位面積平方公尺,車位所在樓層)
 );
 load data infile '/var/lib/mysql-files/taiwan_cities.csv'
 into table taiwan_cities
