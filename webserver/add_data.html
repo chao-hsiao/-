@@ -84,12 +84,9 @@
 
             <label>租賃年月日：</label>
             <div class="hor">
-                <label>年</label>
-                <select name="rent_year" id="rent_year" required></select>
-                <label>月</label>
-                <select name="rent_month" id="rent_month" required></select>
-                <label>日</label>
-                <select name="rent_day" id="rent_day" required></select>
+                <select name="rent_year" id="rent_year" required></select>年
+                <select name="rent_month" id="rent_month" required></select>月
+                <select name="rent_day" id="rent_day" required></select>日
             </div>
 
             <label>租賃筆棟數：</label>
@@ -100,13 +97,11 @@
             </div>
             <label>租賃層次</label>
             <div class="hor">
-                <input type="text" id="floor" name="floor" oninput="validateNumericInput('floor')" required>
-                <label>層</label>
+                <input type="text" id="floor" name="floor" oninput="validateNumericInput('floor')" required>層
             </div>
              <label>總樓層數</label>
             <div class="hor">
-                <input type="text" id="t_floor" name="t_floor" oninput="validateNumericInput('t_floor')" required>
-                <label>層</label>
+                <input type="text" id="t_floor" name="t_floor" oninput="validateNumericInput('t_floor')" required>層
             </div>
             
             <div class="dropdown-single">
@@ -126,18 +121,16 @@
 
             <label>建築完成年月日：</label>
             <div class="hor">
-                <label>年</label>
-                <select name="finish_year" id="finish_year" required></select>
-                <label>月</label>
-                <select name="finish_month" id="finish_month" required></select>
-                <label>日</label>
-                <select name="finish_day" id="finish_day" required></select>
+                <select name="finish_year" id="finish_year" required></select>年
+                <select name="finish_month" id="finish_month" required></select>月
+                <select name="finish_day" id="finish_day" required></select>日
             </div>
 
             <label>建物總面積平方公尺：</label>
             <div class="hor">
                 <input type="text" id="t_area" name="t_area" oninput="validateNumericInput('t_area')" required>
-                <label>平方公尺</label>
+                <p>m<span style="vertical-align: super; font-size: smaller;">2</span></p>
+
             </div>
 
             <label>建物現況格局：</label>
@@ -170,7 +163,7 @@
             <label>車位面積平方公尺：</label>
             <div class="hor">
                 <input type="text" id="p_area" name="p_area" oninput="validateNumericInput('p_area')">
-                <label>平方公尺</label>
+                <p>m<span style="vertical-align: super; font-size: smaller;">2</span></p>
             </div>
 
             <div class="input-single">
@@ -179,9 +172,11 @@
             </div>
 
             <label>車位所在樓層：</label>
-            <div class="input-single">
-                <input type="checkbox" name="under" value=1>地下
-                <input type="text" id="p_floor" name="p_floor" oninput="validateNumericInput('p_floor')">
+            <div class="hor">
+                <input type="checkbox" name="under" value=1>地下  
+            </div>
+            <div class="hor">
+                <input type="text" id="p_floor" name="p_floor" oninput="validateNumericInput('p_floor')">樓
             </div>
 
             <div class="input-single">
