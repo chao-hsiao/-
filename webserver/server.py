@@ -160,9 +160,9 @@ def add_item():
             data = request.json
             selected_id = data['selected_id']
             if data['case'] == 1:
-                cursor.execute("SELECT DISTINCT serial_number FROM lvr_land_c WHERE district_id = %s", (int(selected_id),))
+                cursor.execute(f"SELECT DISTINCT serial_number FROM lvr_land_c WHERE district_id = {selected_id}")
             elif data['case'] == 2:
-                cursor.execute("SELECT DISTINCT 建築完成日期, 主要建材, 總層數 FROM lvr_land_c_build WHERE serial_number = %s", (selected_id,))
+                cursor.execute(f"SELECT DISTINCT 建築完成日期, 主要建材, 總層數 FROM lvr_land_c_build WHERE serial_number = '{selected_id}'")
 
             results = cursor.fetchall()
             cursor.close()
@@ -301,7 +301,7 @@ def cont():
             '主要用途': request.form.get('main_use'),
             '主要建材': upload['主要建材'],
             '建築完成日期': upload['建築完成年月日'][:-4] + '年' + upload['建築完成年月日'][-4:-2] + '月' + upload['建築完成年月日'][-2:]  + '日',
-            '總層數': upload['總樓層數']
+            '總層數': arabic_to_chinese(int(upload['總樓層數']))
         }
         upload_land = {
             'serial_number': upload['serial_number'],
@@ -328,6 +328,7 @@ def cont():
             return "Failed to connect to the database", 500
     
     return render_template('add_data_cont.html')
+
 
 def arabic_to_chinese(arabic_number):
     chinese_digits = {0: '零', 1: '一', 2: '二', 3: '三', 4: '四', 5: '五', 6: '六', 7: '七', 8: '八', 9: '九'}
