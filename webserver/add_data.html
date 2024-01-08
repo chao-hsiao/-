@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租屋網</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <form action="upload" method="post">
+            <div class="dropdown-group">
+
+                <label for="select_city">區 域：</label>
+                <br>城市
+                <select id="select_city" name="city"></select>
+                <script type="application/json" id="data">
+                    {{ data | tojson }}
+                </script>
+                <label for="select_district"></label>
+                <br>鄉鎮市區
+                <select id="select_district" name="district" required></select>
+            </div>
+
+            <div class="input-single">
+                <label>serial_number：</label>
+                <select id="serial_number" name="serial_number" onchange="checkSelectValue()"></select>
+                <input type="text" id="serial_number_input" name="serial_number_input" required>
+            </div>
+
+            <div class="dropdown-single">
+                <label>類 型：</label>
+                <select id="rental_type" name="rental_type"></select>
+            </div>
+
+            <!-- Single Selectable Cell -->
+            <div class="dropdown-single">
+                <label>交易標的：</label>
+                <select id="transaction_object" name="transaction_object" required>
+                    <option value="房地" selected="selected">
+                        房地
+                    </option>
+                    <option value="車位">
+                        車位
+                    </option>
+                    <option value="房地+車位">
+                        房地+車位
+                    </option>
+                    <option value="土地">
+                        土地
+                    </option>
+                    <option value="建物">
+                        建物
+                    </option>
+                </select>
+            </div>
+
+            <!-- Single Input Cell -->
+            <div class="input-single">
+                <label>土地位置建物門牌：</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            
+            <!-- Single Input Cell -->
+            <div class="input-single">
+                <label>土地面積平方公尺：</label>
+                <input type="text" id="land_area" name="land_area" oninput="validateNumericInput('land_area')" required>
+            </div>
+
+            <div class="dropdown-single">
+                <label>都市土地使用分區：</label>
+                <select id="land_using_type_for_urban" name="land_using_type_for_urban"></select>
+            </div>
+
+            <div class="dropdown-single">
+                <label>非都市土地使用分區：</label>
+                <select id="land_using_type_for_non_urban" name="land_using_type_for_non_urban"></select>
+            </div>
+
+            <div class="dropdown-single">
+                <label>非都市土地使用編定：</label>
+                <select id="non_urban_land_classification" name="non_urban_land_classification"></select>
+            </div>
+
+            <label>租賃年月日：</label>
+            <div class="hor">
+                <label>年</label>
+                <select name="rent_year" id="rent_year" required></select>
+                <label>月</label>
+                <select name="rent_month" id="rent_month" required></select>
+                <label>日</label>
+                <select name="rent_day" id="rent_day" required></select>
+            </div>
+
+            <label>租賃筆棟數：</label>
+            <div class="hor">
+                <input type="text" id="land" name="land" placeholder="土地" oninput="validateNumericInput('land')" required>
+                <input type="text" id="building" name="building" placeholder="建物" oninput="validateNumericInput('building')" required>
+                <input type="text" id="park" name="park" placeholder="車位" oninput="validateNumericInput('park')" required>
+            </div>
+            <label>租賃層次</label>
+            <div class="hor">
+                <input type="text" id="floor" name="floor" oninput="validateNumericInput('floor')" required>
+                <label>層</label>
+            </div>
+             <label>總樓層數</label>
+            <div class="hor">
+                <input type="text" id="t_floor" name="t_floor" oninput="validateNumericInput('t_floor')" required>
+                <label>層</label>
+            </div>
+            
+            <div class="dropdown-single">
+                <label>建物型態：</label>
+                <select id="building_type" name="building_type"></select>
+            </div>
+
+            <div class="input-single">
+                <label>主要用途：</label>
+                <input type="text" id="main_use" name="main_use">
+            </div>
+
+            <div class="input-single">
+                <label>主要建材：</label>
+                <input type="text" id="main_material" name="main_material" required>
+            </div>
+
+            <label>建築完成年月日：</label>
+            <div class="hor">
+                <label>年</label>
+                <select name="finish_year" id="finish_year" required></select>
+                <label>月</label>
+                <select name="finish_month" id="finish_month" required></select>
+                <label>日</label>
+                <select name="finish_day" id="finish_day" required></select>
+            </div>
+
+            <label>建物總面積平方公尺：</label>
+            <div class="hor">
+                <input type="text" id="t_area" name="t_area" oninput="validateNumericInput('t_area')" required>
+                <label>平方公尺</label>
+            </div>
+
+            <label>建物現況格局：</label>
+            <div class="hor">
+                <input type="text" id="room" name="room" placeholder="房" oninput="validateNumericInput('room')" required>
+                <input type="text" id="living" name="living" placeholder="廳" oninput="validateNumericInput('living')" required>
+                <input type="text" id="toilet" name="toilet" placeholder="衛" oninput="validateNumericInput('toilet')" required>
+                <input type="text" id="cubicle" name="cubicle" placeholder="隔間" oninput="validateNumericInput('cubicle')"required>
+            </div>
+
+            <div class="input-single">
+                <label>有無管理組織</label>
+                <input type="checkbox" name="has_org" value=1>
+            </div>
+            <div class="input-single">
+                <label>有無附傢俱</label>
+                <input type="checkbox" name="has_furniture" value=1>
+            </div>
+
+            <div class="input-single">
+                <label>總額元：</label>
+                <input type="text" id="t_cost" name="t_cost" oninput="validateNumericInput('t_cost')" required>
+            </div>
+
+            <div class="dropdown-single">
+                <label>車位類別：</label>
+                <select id="parking_type" name="parking_type"></select>
+            </div>
+
+            <label>車位面積平方公尺：</label>
+            <div class="hor">
+                <input type="text" id="p_area" name="p_area" oninput="validateNumericInput('p_area')">
+                <label>平方公尺</label>
+            </div>
+
+            <div class="input-single">
+                <label>車位總額元：</label>
+                <input type="text" id="p_t_cost" name="p_t_cost" oninput="validateNumericInput('p_t_cost')">
+            </div>
+
+            <label>車位所在樓層：</label>
+            <div class="input-single">
+                <input type="checkbox" name="under" value=1>地下
+                <input type="text" id="p_floor" name="p_floor" oninput="validateNumericInput('p_floor')">
+            </div>
+
+            <div class="input-single">
+                <label>備註：</label>
+                <input type="text" id="note" name="note">
+            </div>
+            <div class="input-single">
+                <label>有無管理員</label>
+                <input type="checkbox" name="has_security" value=1>
+            </div>
+
+            <div class="input-single">
+                <label>有無電梯</label>
+                <input type="checkbox" name="has_lift" value=1>
+            </div>
+            <div class="input-single">
+                <label>附屬設備：</label>
+                <input type="text" id="other_equipment" name="other_equipment">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-btn">
+                <button type="upload" id="uploadBtn" >上傳</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="static/scripts_add.js"></script>
+</body>
+</html>

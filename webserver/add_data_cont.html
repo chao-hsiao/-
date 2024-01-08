@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租屋網</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <form action="{{ url_for('cont') }}" method="post">
+
+            <!-- Decimal Input for 建物移轉面積平方公尺 -->
+            <div class="input-single">
+                <label>建物移轉面積平方公尺：</label>
+                <input type="text" id="building_transfer_area" name="building_transfer_area" oninput="validateNumericInput('building_transfer_area')" required title="Decimal Format">
+            </div>
+
+            <!-- Long Text Input for 主要用途 -->
+            <div class="input-single">
+                <label>主要用途：</label>
+                <input type="text" id="main_use" name="main_use"></input>
+            </div>
+
+            <!-- Text Input for 土地位置 -->
+            <div class="input-single">
+                <label>土地位置：</label>
+                <input type="text" id="land_location" name="land_location" required>
+            </div>
+
+            <!-- Decimal Input for 土地移轉面積平方公尺 -->
+            <div class="input-single">
+                <label>土地移轉面積平方公尺：</label>
+                <input type="text" id="land_transfer_area" name="land_transfer_area" oninput="validateNumericInput('land_transfer_area')" required title="Decimal Format">
+            </div>
+
+            <!-- Text Input for 使用分區或編定 -->
+            <div class="input-single">
+                <label>使用分區或編定：</label>
+                <input type="text" id="land_use_partition" name="land_use_partition">
+            </div>
+
+            <!-- Numeric Input for 地號 -->
+            <div class="input-single">
+                <label>地號：</label>
+                <input type="text" id="land_number" name="land_number" oninput="validateNumericInput('land_number')" required>
+            </div>
+
+
+            <!-- Submit Button -->
+            <div class="submit-btn">
+                <button type="upload" id="uploadBtn" >上傳</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        function validateNumericInput(id) {
+            var input = document.getElementById(id).value;
+            if (input && isNaN(input)) {
+                alert("請鍵入阿拉伯數字，例75000，勿輸入中英文字或全形符號");
+                document.getElementById(id).value = ''; // Reset the input field
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alert then Redirect</title>
+</head>
+<body>
+    {% if msg %}
+        <script type="text/javascript">
+            alert("Success! Your action has been completed.");
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            alert("Oops! Something went wrong. Please try again.");
+        </script>
+    {% endif %}
+    <script>window.location.href = "/";</script>
+</body>
+</html>
