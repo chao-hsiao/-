@@ -234,16 +234,26 @@ function getData(id) {
 document.getElementById('serial_number_input').addEventListener('change', function() {getData(this.value);});
 
 
-function deleteFunction() {
-    // Logic to handle 'Delete'
+function updateRequiredStatus() {
+    const select = document.getElementById('parking_type');
+    const input1 = document.getElementById('p_area');
+    const input2 = document.getElementById('p_t_cost');
+    const input3 = document.getElementById('p_floor');
+
+    const isAnyFilled = select.value || input1.value || input2.value || input3.value;
+
+    [select, input1, input2, input3].forEach(element => {
+        element.required = !!isAnyFilled;
+    });
 }
 
-function modifyFunction() {
-    // Logic to handle 'Modify'
-}
+document.getElementById('parking_type').addEventListener('change', updateRequiredStatus);
+document.getElementById('p_area').addEventListener('input', updateRequiredStatus);
+document.getElementById('p_t_cost').addEventListener('input', updateRequiredStatus);
+document.getElementById('p_floor').addEventListener('input', updateRequiredStatus);
 
-
-
+// Initial check
+updateRequiredStatus();
 
 
 
