@@ -32,6 +32,15 @@ input[type="number"], input[type="text"], select {
     border-radius: 4px;
 }
 
+.hor {
+  display: flex; /* Enables Flexbox for this container */
+  gap: 10px; /* Adds some space between the elements */
+}
+
+.hor select {
+  flex-grow: 1; /* Optional: makes the <select> elements take up equal space */
+}
+
 .submit-btn {
     text-align: center;
 }
