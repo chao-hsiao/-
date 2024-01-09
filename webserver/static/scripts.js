@@ -77,11 +77,6 @@ updateRequiredStatus('lowerarea','upperarea');
 updateRequiredStatus('lowerprice','upperprice');
 
 
-function addFunction() {
-    // Logic to handle 'Add'
-    window.location.href = 'add_item';
-}
-
 
 
 
