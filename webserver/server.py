@@ -96,7 +96,7 @@ def results():
         table_html += "</tbody>"
         table_html += "</table>"
         table_html += "<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>"
-        table_html += "<script src='static/scripts_del_mod.js'></script>"
+        table_html += "<script src='static/scripts_del.js'></script>"
 
         return table_html
     else:
