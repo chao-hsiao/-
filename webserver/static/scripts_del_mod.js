@@ -22,4 +22,8 @@ function deleteRow(rowId1,rowId2) {
         });
     }
 }
+// rowId1, rowId2 分別為 serial_number, 土地位置建物門牌
+function modifyRow(rowId1,rowId2) {
+
+}
 
