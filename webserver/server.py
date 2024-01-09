@@ -65,7 +65,7 @@ def results():
         connection.close()
         
         if not rows:
-            return "No data found for the given parameters.<br>" + construct_query(results)
+            return render_template("no_data_found_page.html", data=construct_query(results))
 
         # Constructing HTML table
         table_html = "<link rel='stylesheet' href='static/style.css'>"
