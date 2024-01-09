@@ -15,7 +15,7 @@ function chineseToArabic(chineseNumber) {
         const char = chineseNumber[i];
         if (multipliers[char]) {
             currentMultiplier = multipliers[char];
-            if (i === 0) {
+            if (i == 0) {
                 // For cases like 十 (10), where the digit before 十 is implied
                 result += currentMultiplier;
             }
@@ -122,7 +122,7 @@ function isLeapYearInRepublicEra(year) {
     var gregorianYear = year + 1911;
 
     // 判斷是否為閏年
-    if ((gregorianYear % 4 === 0 && gregorianYear % 100 !== 0) || gregorianYear % 400 === 0)
+    if ((gregorianYear % 4 == 0 && gregorianYear % 100 != 0) || gregorianYear % 400 == 0)
         return 1;
     return 0;
 }
@@ -218,13 +218,18 @@ function getData(id) {
     })
     .then(data => {
         var d = JSON.parse(data);
-        var date = convertDateToArray(d[0]['建築完成日期']);
-        document.getElementById("main_material").value = d[0]['主要建材'];
-        document.getElementById("finish_year").value = date[0];
-        document.getElementById("finish_month").value = date[1];
-        selected_month(document.getElementById("finish_month").value,"finish_year","finish_day");
-        document.getElementById("finish_day").value = date[2];
-        document.getElementById("t_floor").value = chineseToArabic(d[0]['總層數']);
+        try {
+            var date = convertDateToArray(d[0]['建築完成日期']);
+            document.getElementById("main_material").value = d[0]['主要建材'];
+            document.getElementById("finish_year").value = date[0];
+            document.getElementById("finish_month").value = date[1];
+            selected_month(document.getElementById("finish_month").value,"finish_year","finish_day");
+            document.getElementById("finish_day").value = date[2];
+            document.getElementById("t_floor").value = chineseToArabic(d[0]['總層數']);
+        } catch (e) {
+            console.log(e);
+        }
+
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
