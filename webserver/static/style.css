@@ -74,13 +74,50 @@ input[type="number"], input[type="text"], select {
 .add-button {
     background-color: green;
 }
-
 .delete-button {
-    background-color: red;
+    background-color: #f44336;
 }
-
 .modify-button {
     background-color: yellow;
     color: black;
 }
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
+/* Optional: Add a box shadow or border to the bottom of the header for better visibility */
+th {
+    box-shadow: 0px 2px 2px rgba(0,0,0,0.1);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.delete-button .modify-button {
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+}
