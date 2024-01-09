@@ -4,15 +4,20 @@
     <title>Alert then Redirect</title>
 </head>
 <body>
-    {% if msg %}
-        <script type="text/javascript">
+    <script type="text/javascript">
+        // Define the data variable in JavaScript
+        var data = {
+            'dir': '{{ data['dir'] }}',
+            'msg': '{{ data['msg'] }}'
+        };
+
+        if (data['msg']) {
             alert("Success! Your action has been completed.");
-        </script>
-    {% else %}
-        <script type="text/javascript">
+        } else {
             alert("Oops! Something went wrong. Please try again.");
-        </script>
-    {% endif %}
-    <script>window.location.href = "/";</script>
+        }
+
+        window.location.href = data['dir'];
+    </script>
 </body>
 </html>
