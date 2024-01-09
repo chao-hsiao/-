@@ -56,18 +56,30 @@ function validateNumericInput(id) {
     }
 }
 
+function updateRequiredStatus(id1,id2) {
+    const input1 = document.getElementById(id1);
+    const input2 = document.getElementById(id2);
+
+    const isAnyFilled = input1.value || input2.value;
+
+    [input1, input2].forEach(element => {
+        element.required = !!isAnyFilled;
+    });
+}
+
+document.getElementById('lowerarea').addEventListener('input', updateRequiredStatus);
+document.getElementById('upperarea').addEventListener('input', updateRequiredStatus);
+document.getElementById('lowerprice').addEventListener('input', updateRequiredStatus);
+document.getElementById('upperprice').addEventListener('input', updateRequiredStatus);
+
+// Initial check
+updateRequiredStatus('lowerarea','upperarea');
+updateRequiredStatus('lowerprice','upperprice');
+
 
 function addFunction() {
     // Logic to handle 'Add'
     window.location.href = 'add_item';
-}
-
-function deleteFunction() {
-    // Logic to handle 'Delete'
-}
-
-function modifyFunction() {
-    // Logic to handle 'Modify'
 }
 
 
