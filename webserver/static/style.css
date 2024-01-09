@@ -70,10 +70,10 @@ input[type="number"], input[type="text"], select {
     opacity: 0.3;
 }
 
-.add-button, .back-button {
+.add-button {
     background-color: green;
 }
-.delete-button {
+.delete-button, .cancle-button {
     background-color: #f44336;
     margin-botton: 10px;
 }
