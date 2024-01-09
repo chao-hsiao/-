@@ -70,7 +70,7 @@ input[type="number"], input[type="text"], select {
     opacity: 0.3;
 }
 
-.add-button {
+.add-button, .back-button {
     background-color: green;
 }
 .delete-button {
@@ -109,15 +109,4 @@ th {
 }
 tr:nth-child(even) {
     background-color: #f9f9f9;
-}
-.delete-button .modify-button {
-    color: white;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-
 }
