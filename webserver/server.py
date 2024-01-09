@@ -293,6 +293,7 @@ def upload():
             connection.close()
             return redirect(url_for("cont"))
 
+        session.clear()
         for query in queries:
             cursor.execute(query)
 
@@ -471,7 +472,7 @@ def results():
         connection.close()
         
         if not rows:
-            return "No data found for the given parameters.<br>" + construct_query(results)
+            return render_template("no_data_found_page.html", data=construct_query(results))
 
         # Constructing HTML table
         table_html = "<link rel='stylesheet' href='static/style.css'>"
@@ -699,6 +700,7 @@ def upload():
             connection.close()
             return redirect(url_for("cont"))
 
+        session.clear()
         for query in queries:
             cursor.execute(query)
 
