@@ -28,8 +28,9 @@ def get_db_connection():
     return connection
 
 # Define a route for the API
-@app.route('/', methods=['POST','GET'])
+@app.route('/', methods=['GET'])
 def home():
+    session.clear()
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor(dictionary=True)
@@ -43,34 +44,39 @@ def home():
     else:
         return "Failed to connect to the database", 500
 
-@app.route('/results', methods=['POST'])
+@app.route('/results', methods=['POST','GET'])
 def results():
-    results = {
-        'city': request.form.get('city'),
-        'district': request.form.get('district'),
-        'lowerprice': request.form.get('lowerprice'),
-        'upperprice': request.form.get('upperprice'),
-        'lowerarea': request.form.get('lowerarea'),
-        'upperarea': request.form.get('upperarea'),
-        'rental_type': request.form.get('rental_type'),
-        'keyword': request.form.get('keyword')
-    }
+    query = session.get('query')
+    session.clear()
+    if request.method == 'POST':
+        columns = ['city','district','lowerprice','upperprice','lowerarea','upperarea','rental_type','keyword']
+        values = []
+        for c in columns:
+            values.append(request.form.get(c))
+
+        results = dict(zip(tuple(columns),tuple(values)))
+        query = construct_query(results)
+    elif query == None:
+        return """  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+                    <title>405 Method Not Allowed</title>
+                    <h1>Method Not Allowed</h1>
+                    <p>The method is not allowed for the requested URL.</p>""", 500
 
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor(dictionary=True)
-        cursor.execute(construct_query(results))
+        cursor.execute(query)
         rows = cursor.fetchall()
         cursor.close()
         connection.close()
         
         if not rows:
-            return render_template("no_data_found_page.html", data=construct_query(results))
+            return render_template("no_data_found_page.html", data=query)
 
         # Constructing HTML table
         table_html = "<link rel='stylesheet' href='static/style.css'>"
         table_html += "<div class='sticky-container'>"
-        table_html += "<button class='button back-button' onclick='window.history.back();'>Go Back</button>"
+        table_html += "<button class='button back-button' onclick='window.location.href = `/`'>Go Back</button>"
         table_html += "</div>"
         table_html += "<table border='1'>"
         table_html += "<thead class='sticky-header'>"
@@ -89,7 +95,7 @@ def results():
             row_id2 = row['土地位置建物門牌']
             table_html += f"<tr id='row-{row_id}'>"
             table_html += f"<td><button type='button' id='deleteButton' class='button delete-button' button onclick='deleteRow(`{row_id1}`,`{row_id2}`)'>Delete</button><br>"  # Delete button
-            table_html += f"<button type='button' id='modify-button' class='button modify-button' button onclick='modifyRow(`{row_id1}`,`{row_id2}`)'>Modify</button></td>"  # Modify button
+            table_html += f"<button type='button' id='modify-button' class='button modify-button' button onclick='modifyRow(`{row_id1}`,`{row_id2}`,`{query}`)'>Modify</button></td>"  # Modify button
             for cell in row.values():
                 table_html += f"<td>{cell}</td>"
             table_html += "</tr>"
@@ -104,49 +110,49 @@ def results():
 
 def construct_query(params):
     base_query = """
-    SELECT
-        taiwan_cities.縣市名,
-        taiwan_districts.鄉鎮名,
-        lvr_land_c.土地位置建物門牌,
-        lvr_land_c.交易標的,
-        lvr_land_c.土地面積平方公尺,
-        lvr_land_c.都市土地使用分區,
-        lvr_land_c.非都市土地使用分區,
-        lvr_land_c.非都市土地使用編定,
-        lvr_land_c.租賃年月日,
-        lvr_land_c.租賃筆棟數,
-        lvr_land_c.租賃層次,
-        lvr_land_c.總樓層數,
-        lvr_land_c.建物型態,
-        lvr_land_c.主要用途,
-        lvr_land_c.主要建材,
-        lvr_land_c.建築完成年月日,
-        lvr_land_c.建物總面積平方公尺,
-        lvr_land_c.建物現況格局_房,
-        lvr_land_c.建物現況格局_廳,
-        lvr_land_c.建物現況格局_衛,
-        lvr_land_c.建物現況格局_隔間,
-        lvr_land_c.有無管理組織,
-        lvr_land_c.有無附傢俱,
-        lvr_land_c.總額元,
-        lvr_land_c.單價元平方公尺,
-        lvr_land_c.車位類別,
-        lvr_land_c.車位面積平方公尺,
-        lvr_land_c.車位總額元,
-        lvr_land_c.備註,
-        lvr_land_c.serial_number,
-        lvr_land_c.出租型態,
-        lvr_land_c.有無管理員,
-        lvr_land_c.租賃期間,
-        lvr_land_c.有無電梯,
-        lvr_land_c.附屬設備,
-        lvr_land_c.租賃住宅服務
-    FROM
-        taiwan_cities
-    JOIN
-        taiwan_districts ON taiwan_cities.city_id = taiwan_districts.city_id
-    JOIN
-        lvr_land_c ON taiwan_districts.district_id = lvr_land_c.district_id
+        SELECT
+            taiwan_cities.縣市名,
+            taiwan_districts.鄉鎮名,
+            lvr_land_c.土地位置建物門牌,
+            lvr_land_c.交易標的,
+            lvr_land_c.土地面積平方公尺,
+            lvr_land_c.都市土地使用分區,
+            lvr_land_c.非都市土地使用分區,
+            lvr_land_c.非都市土地使用編定,
+            lvr_land_c.租賃年月日,
+            lvr_land_c.租賃筆棟數,
+            lvr_land_c.租賃層次,
+            lvr_land_c.總樓層數,
+            lvr_land_c.建物型態,
+            lvr_land_c.主要用途,
+            lvr_land_c.主要建材,
+            lvr_land_c.建築完成年月日,
+            lvr_land_c.建物總面積平方公尺,
+            lvr_land_c.建物現況格局_房,
+            lvr_land_c.建物現況格局_廳,
+            lvr_land_c.建物現況格局_衛,
+            lvr_land_c.建物現況格局_隔間,
+            lvr_land_c.有無管理組織,
+            lvr_land_c.有無附傢俱,
+            lvr_land_c.總額元,
+            lvr_land_c.單價元平方公尺,
+            lvr_land_c.車位類別,
+            lvr_land_c.車位面積平方公尺,
+            lvr_land_c.車位總額元,
+            lvr_land_c.備註,
+            lvr_land_c.serial_number,
+            lvr_land_c.出租型態,
+            lvr_land_c.有無管理員,
+            lvr_land_c.租賃期間,
+            lvr_land_c.有無電梯,
+            lvr_land_c.附屬設備,
+            lvr_land_c.租賃住宅服務
+        FROM
+            taiwan_cities
+        JOIN
+            taiwan_districts ON taiwan_cities.city_id = taiwan_districts.city_id
+        JOIN
+            lvr_land_c ON taiwan_districts.district_id = lvr_land_c.district_id
     """
     conditions = []
 
@@ -352,7 +358,7 @@ def upload():
         connection.commit()
         cursor.close()
         connection.close()
-        return render_template('alert_msg.html',msg=True)
+        return render_template('alert_msg.html',{'msg':True, 'dir':'/'})
     else:
         return "Failed to connect to the database", 500
 
@@ -427,10 +433,10 @@ def delete_item():
     if connection:
         cursor = connection.cursor()
         data = request.json
-        row_id1 = data['id1']
-        row_id2 = data['id2']
+        serial_number = data['id1']
+        address = data['id2']
 
-        sql = f"DELETE FROM lvr_land_c WHERE serial_number = '{row_id1}' AND 土地位置建物門牌 = '{row_id2}';"
+        sql = f"DELETE FROM lvr_land_c WHERE serial_number = '{serial_number}' AND 土地位置建物門牌 = '{address}';"
         cursor.execute(sql)
 
         connection.commit()
@@ -441,10 +447,156 @@ def delete_item():
         return "Failed to connect to the database", 500
 
 
-@app.route('/modify_item', methods=['POST'])
+@app.route('/modify_item')
 def modify_item():
-    # Logic to modify an item in the database
-    return jsonify({'status': True})
+    session.clear()
+    serial_number = request.args.get('serial_number')
+    address = request.args.get('address')
+    query_r = request.args.get('query')
+    session['serial_number'] = serial_number;
+    session['address'] = address;
+    session['query'] = query_r;
+
+    columns = ['都市土地使用分區',
+        '非都市土地使用分區',
+        '非都市土地使用編定',
+        '租賃年月日',
+        '租賃筆棟數',
+        '主要用途',
+        '建物現況格局_房',
+        '建物現況格局_廳',
+        '建物現況格局_衛',
+        '建物現況格局_隔間',
+        '有無管理組織',
+        '有無附傢俱',
+        '總額元',
+        '車位總額元',
+        '車位類別',
+        '備註',
+        '出租型態',
+        '有無管理員',
+        '有無電梯',
+        '附屬設備']
+
+    query = f"""
+        SELECT
+            {', '.join(columns)}
+        FROM
+            lvr_land_c
+        WHERE
+            serial_number = '{serial_number}' AND 土地位置建物門牌 = '{address}';
+    """
+
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT DISTINCT 出租型態 FROM lvr_land_c")
+        rental_type = cursor.fetchall()
+        cursor.execute("SELECT DISTINCT 都市土地使用分區 FROM lvr_land_c")
+        land_using_type_for_urban = cursor.fetchall()
+        cursor.execute("SELECT DISTINCT 非都市土地使用分區 FROM lvr_land_c")
+        land_using_type_for_non_urban = cursor.fetchall()
+        cursor.execute("SELECT DISTINCT 非都市土地使用編定 FROM lvr_land_c")
+        non_urban_land_classification = cursor.fetchall()
+        cursor.execute(query)
+        data = cursor.fetchall()
+        cursor.close()
+        connection.close()
+
+        data={
+            'options': {
+                'rental_type': rental_type, 
+                'land_using_type_for_urban': land_using_type_for_urban,
+                'land_using_type_for_non_urban': land_using_type_for_non_urban,
+                'non_urban_land_classification': non_urban_land_classification},
+            'data': data
+        }
+
+        return render_template('modify_data.html', data=data)
+    else:
+        return "Failed to connect to the database", 500
+
+@app.route('/update_data', methods=['POST'])
+def update_data():
+    serial_number = session.get('serial_number',{})
+    address = session.get('address',{})
+    update = {
+        '出租型態': request.form.get('rental_type'),
+        '都市土地使用分區': request.form.get('land_using_type_for_urban'),
+        '非都市土地使用分區': request.form.get('land_using_type_for_non_urban'),
+        '非都市土地使用編定': request.form.get('non_urban_land_classification'),
+        'rent_year': request.form.get('rent_year'),
+        'rent_month': request.form.get('rent_month'),
+        'rent_day': request.form.get('rent_day'),
+        'land': request.form.get('land'),
+        'building': request.form.get('building'),
+        'park': request.form.get('park'),
+        '主要用途': request.form.get('main_use'),
+        '建物現況格局_房': request.form.get('room'),
+        '建物現況格局_廳': request.form.get('living'),
+        '建物現況格局_衛': request.form.get('toilet'),
+        '建物現況格局_隔間': request.form.get('cubicle'),
+        '有無管理組織': request.form.get('has_org') if request.form.get('has_org') else '0',
+        '有無附傢俱': request.form.get('has_furniture') if request.form.get('has_furniture') else '0',
+        '總額元': request.form.get('t_cost'),
+        '車位總額元': request.form.get('p_t_cost'),
+        '備註': request.form.get('note'),
+        '有無管理員': request.form.get('has_security') if request.form.get('has_security') else '0',
+        '有無電梯': request.form.get('has_lift') if request.form.get('has_lift') else '0',
+        '附屬設備': request.form.get('other_equipment'),
+    }
+
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        cursor.execute(f"SELECT 建物總面積平方公尺 FROM lvr_land_c WHERE serial_number = '{serial_number}' AND 土地位置建物門牌 = '{address}'")
+        tmp = cursor.fetchall()[0][0];
+
+        update['租賃年月日'] = f(update['rent_year']) + f(update['rent_month']) + f(update['rent_day'])
+        update['租賃筆棟數'] = '土地' + update['land'] + '建物' + update['building'] + '車位' + update['park']
+        update['單價元平方公尺'] = str(int(update['總額元']) // int(tmp))
+        cursor.close()
+        connection.close()
+    else:
+        session.clear()
+        return "Failed to connect to the database", 500
+
+    update_park = {
+        '車位價格': update['車位總額元'],
+    }
+
+    del update['rent_year'] 
+    del update['rent_month']
+    del update['rent_day']
+    del update['land']
+    del update['building']
+    del update['park']
+
+    update = {k: v for k, v in update.items() if v != "" and v != None}
+    update_park = {k: v for k, v in update_park.items() if v != "" and v != None}
+
+    connection = get_db_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
+
+        queries = []
+        kvs = ', '.join([f"{key}='{value}'" for key, value in update.items()])
+        if kvs != "":
+            queries.append(f"UPDATE lvr_land_c SET {kvs} WHERE serial_number = '{serial_number}' AND 土地位置建物門牌 = '{address}';")
+
+        # kvs = ', '.join([f"{key}='{value}'" for key, value in update_park.items()])
+        # if kvs != "":
+        #     queries.append(f"UPDATE lvr_land_c_park SET {kvs} WHERE serial_number = '{serial_number}';")
+
+        for query in queries:
+            cursor.execute(query)
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return render_template('alert_msg.html',data={'msg': True,'dir':'/results'})
+    else:
+        return "Failed to connect to the database", 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
