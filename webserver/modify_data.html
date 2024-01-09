@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>租屋網</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <form action="update_data" method="post">
+            <script type="application/json" id="data">
+                {{data | tojson}}
+            </script>
+            <div class="dropdown-single">
+                <label>類 型：</label>
+                <select id="rental_type" name="rental_type"></select>
+            </div>
+            
+            <div class="dropdown-single">
+                <label>都市土地使用分區：</label>
+                <select id="land_using_type_for_urban" name="land_using_type_for_urban"></select>
+            </div>
+
+            <div class="dropdown-single">
+                <label>非都市土地使用分區：</label>
+                <select id="land_using_type_for_non_urban" name="land_using_type_for_non_urban"></select>
+            </div>
+
+            <div class="dropdown-single">
+                <label>非都市土地使用編定：</label>
+                <select id="non_urban_land_classification" name="non_urban_land_classification"></select>
+            </div>
+
+            <label>租賃年月日：</label>
+            <div class="hor">
+                <select name="rent_year" id="rent_year" required></select>年
+                <select name="rent_month" id="rent_month" required></select>月
+                <select name="rent_day" id="rent_day" required></select>日
+            </div>
+
+            <label>租賃筆棟數：</label>
+            <div class="hor">
+                <input type="text" id="land" name="land" placeholder="土地" oninput="validateNumericInput('land')" required>
+                <input type="text" id="building" name="building" placeholder="建物" oninput="validateNumericInput('building')" required>
+                <input type="text" id="park" name="park" placeholder="車位" oninput="validateNumericInput('park')" required>
+            </div>
+            
+
+            <div class="input-single">
+                <label>主要用途：</label>
+                <input type="text" id="main_use" name="main_use">
+            </div>
+
+            <label>建物現況格局：</label>
+            <div class="hor">
+                <input type="text" id="room" name="room" placeholder="房" oninput="validateNumericInput('room')" required>
+                <input type="text" id="living" name="living" placeholder="廳" oninput="validateNumericInput('living')" required>
+                <input type="text" id="toilet" name="toilet" placeholder="衛" oninput="validateNumericInput('toilet')" required>
+                <input type="text" id="cubicle" name="cubicle" placeholder="隔間" oninput="validateNumericInput('cubicle')"required>
+            </div>
+
+            <div class="input-single">
+                <label>有無管理組織</label>
+                <input id="has_org" type="checkbox" name="has_org" value=1>
+            </div>
+            <div class="input-single">
+                <label>有無附傢俱</label>
+                <input id="has_furniture" type="checkbox" name="has_furniture" value=1>
+            </div>
+
+            <div class="input-single">
+                <label>總額元：</label>
+                <input type="text" id="t_cost" name="t_cost" oninput="validateNumericInput('t_cost')" required>
+            </div>
+
+            <div class="input-single" id = "park_div">
+                <label>車位總額元：</label>
+                <input type="text" id="p_t_cost" name="p_t_cost" oninput="validateNumericInput('p_t_cost')">
+            </div>
+
+            <div class="input-single">
+                <label>備註：</label>
+                <input type="text" id="note" name="note">
+            </div>
+            <div class="input-single">
+                <label>有無管理員</label>
+                <input id="has_security" type="checkbox" name="has_security" value=1>
+            </div>
+
+            <div class="input-single">
+                <label>有無電梯</label>
+                <input id="has_lift" type="checkbox" name="has_lift" value=1>
+            </div>
+            <div class="input-single">
+                <label>附屬設備：</label>
+                <input type="text" id="other_equipment" name="other_equipment">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-btn">
+                <button type="update" id="updateBtn" >Update</button>
+            </div>
+        </form>
+        <div><br>
+            <button type="button" class="button cancle-button" onclick="window.location.href = '/results';">Cancle</button>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="static/scripts_mod.js"></script>
+</body>
+</html>
