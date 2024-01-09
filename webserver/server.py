@@ -103,7 +103,51 @@ def results():
         return "Failed to connect to the database", 500
 
 def construct_query(params):
-    base_query = "SELECT * FROM lvr_land_c"
+    base_query = """
+    SELECT
+        taiwan_cities.縣市名,
+        taiwan_districts.鄉鎮名,
+        lvr_land_c.土地位置建物門牌,
+        lvr_land_c.交易標的,
+        lvr_land_c.土地面積平方公尺,
+        lvr_land_c.都市土地使用分區,
+        lvr_land_c.非都市土地使用分區,
+        lvr_land_c.非都市土地使用編定,
+        lvr_land_c.租賃年月日,
+        lvr_land_c.租賃筆棟數,
+        lvr_land_c.租賃層次,
+        lvr_land_c.總樓層數,
+        lvr_land_c.建物型態,
+        lvr_land_c.主要用途,
+        lvr_land_c.主要建材,
+        lvr_land_c.建築完成年月日,
+        lvr_land_c.建物總面積平方公尺,
+        lvr_land_c.建物現況格局_房,
+        lvr_land_c.建物現況格局_廳,
+        lvr_land_c.建物現況格局_衛,
+        lvr_land_c.建物現況格局_隔間,
+        lvr_land_c.有無管理組織,
+        lvr_land_c.有無附傢俱,
+        lvr_land_c.總額元,
+        lvr_land_c.單價元平方公尺,
+        lvr_land_c.車位類別,
+        lvr_land_c.車位面積平方公尺,
+        lvr_land_c.車位總額元,
+        lvr_land_c.備註,
+        lvr_land_c.serial_number,
+        lvr_land_c.出租型態,
+        lvr_land_c.有無管理員,
+        lvr_land_c.租賃期間,
+        lvr_land_c.有無電梯,
+        lvr_land_c.附屬設備,
+        lvr_land_c.租賃住宅服務
+    FROM
+        taiwan_cities
+    JOIN
+        taiwan_districts ON taiwan_cities.city_id = taiwan_districts.city_id
+    JOIN
+        lvr_land_c ON taiwan_districts.district_id = lvr_land_c.district_id
+    """
     conditions = []
 
     if params['city']:
