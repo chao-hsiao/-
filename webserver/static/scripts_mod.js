@@ -152,3 +152,32 @@ document.getElementById('rent_year').addEventListener('change', function() {sele
 getDateOptions('rent_year','rent_month');
 document.getElementById('rent_month').addEventListener('change', function() {selected_month(this.value,"rent_year","rent_day");});
 
+
+
+function updateSelectState() {
+    const select1 = document.getElementById('land_using_type_for_urban');
+    const select2 = document.getElementById('land_using_type_for_non_urban');
+    const select3 = document.getElementById('non_urban_land_classification');
+
+    const select1Empty = !select1.value;
+    const select2Empty = !select2.value;
+    const select3Empty = !select3.value;
+
+    if (!select1Empty) {
+        select2.disabled = true;
+        select3.disabled = true;
+    } else if (!select2Empty || !select3Empty) {
+        select1.disabled = true;
+    } else {
+        select1.disabled = false;
+        select2.disabled = false;
+        select3.disabled = false;
+    }
+}
+
+document.getElementById('land_using_type_for_urban').addEventListener('change', updateSelectState);
+document.getElementById('land_using_type_for_non_urban').addEventListener('change', updateSelectState);
+document.getElementById('non_urban_land_classification').addEventListener('change', updateSelectState);
+
+// Initialize the state on page load
+updateSelectState();
