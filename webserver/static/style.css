@@ -113,22 +113,32 @@ input[type="number"], input[type="text"], select {
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;  /* Removes space between cells */
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 th {
     background-color: #f4f4f4;
     color: #333;
+    border-right: 1px solid #ccc;
+    top: 0;
+    z-index: 101;
 }
+
+/* This is to ensure the rightmost header doesn't have a right border */
+th:last-child {
+    border-right: none;
+}
+
 .sticky-header {
     position: -webkit-sticky;
     position: sticky;
-    top: 40px;
+    top: 55px;
     z-index: 101;
 }
