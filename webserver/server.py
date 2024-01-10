@@ -172,9 +172,9 @@ def construct_query(params):
     if params['lowerarea'] and params['upperarea']:
         conditions.append(f"lvr_land_c.建物總面積平方公尺 BETWEEN {params['lowerarea']} AND {params['upperarea']}")
     elif params['lowerarea']:
-        conditions.append(f"lvr_land_c.總額元 >= {params['lowerarea']}")
+        conditions.append(f"lvr_land_c.建物總面積平方公尺 >= {params['lowerarea']}")
     elif params['upperarea']:
-        conditions.append(f"lvr_land_c.總額元 <= {params['upperarea']}")
+        conditions.append(f"lvr_land_c.建物總面積平方公尺 <= {params['upperarea']}")
 
     if params['rental_type'] != '0':
         conditions.append(f"lvr_land_c.出租型態 = '{params['rental_type']}'")
