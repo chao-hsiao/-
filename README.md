@@ -9,4 +9,7 @@ we use ***docker + python + mysql*** to functionize the application
 - docker-compose up -d
 - docker-compose down
 # Describtion of the web application functionality
-1. ...
+1. Search: Filter by various parameters to pinpoint the information you need.
+2. Add: Easily contribute to our database by adding new property listings. Fill in essential details and watch as your input becomes part of our growing collection.
+3. Modify: Update property details, pricing, and other information directly on the search results page.
+4. Delete: Remove outdated or incorrect entries to maintain a clean and reliable database.
