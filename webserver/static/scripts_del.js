@@ -23,5 +23,28 @@ function deleteRow(rowId1,rowId2) {
 }
 
 function modifyRow(rowId1, rowId2, query) {
-    window.location.href = `/modify_item?serial_number=${rowId1}&address=${rowId2}&query=${query}`;
+    fetch('/modify_item', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ serial_number: rowId1, address: rowId2, query: query})
+
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/modify_item'; 
+        } else {
+            alert('Error modifying row');
+        }
+    });
+
 }
+
+
+
+
+
+
+
