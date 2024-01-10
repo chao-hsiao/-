@@ -606,21 +606,6 @@ def update_data():
     else:
         return "Failed to connect to the database", 500
 
-@app.route('/query_entry', methods=['POST','GET'])
-def query_entry():
-    if request.method == 'GET':
-        return render_template('query_entry.html')
-    elif request.method == 'POST':
-        connection = get_db_connection();
-        if connection:
-            query = request.form.get('query')
-            cursor = connection.cursor(dictionary=True)
-            cursor.execute(query)
-            res = cursor.fetchall()
-            return f"<br><link rel='stylesheet' href='static/style.css'><button class='button back-button' onclick='window.history.back()'>Go back</button><br><br>{res}"
-        else:
-            return "Failed to connect to the database", 500
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
 
