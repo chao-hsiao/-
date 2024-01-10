@@ -455,74 +455,74 @@ def delete_item():
         return "Failed to connect to the database", 500
 
 
-@app.route('/modify_item')
+@app.route('/modify_item', methods=['POST','GET'])
 def modify_item():
-    session.clear()
-    serial_number = request.args.get('serial_number')
-    address = request.args.get('address')
-    query_r = request.args.get('query')
-    session['serial_number'] = serial_number;
-    session['address'] = address;
-    session['query'] = query_r;
-
-    columns = ['都市土地使用分區',
-        '非都市土地使用分區',
-        '非都市土地使用編定',
-        '租賃年月日',
-        '租賃筆棟數',
-        '主要用途',
-        '建物現況格局_房',
-        '建物現況格局_廳',
-        '建物現況格局_衛',
-        '建物現況格局_隔間',
-        '有無管理組織',
-        '有無附傢俱',
-        '總額元',
-        '車位總額元',
-        '車位類別',
-        '備註',
-        '出租型態',
-        '有無管理員',
-        '有無電梯',
-        '附屬設備']
-
-    query = f"""
-        SELECT
-            {', '.join(columns)}
-        FROM
-            lvr_land_c
-        WHERE
-            serial_number = '{serial_number}' AND 土地位置建物門牌 = '{address}';
-    """
-
-    connection = get_db_connection()
-    if connection:
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT DISTINCT 出租型態 FROM lvr_land_c")
-        rental_type = cursor.fetchall()
-        cursor.execute("SELECT DISTINCT 都市土地使用分區 FROM lvr_land_c")
-        land_using_type_for_urban = cursor.fetchall()
-        cursor.execute("SELECT DISTINCT 非都市土地使用分區 FROM lvr_land_c")
-        land_using_type_for_non_urban = cursor.fetchall()
-        cursor.execute("SELECT DISTINCT 非都市土地使用編定 FROM lvr_land_c")
-        non_urban_land_classification = cursor.fetchall()
-        cursor.execute(query)
-        data = cursor.fetchall()
-        cursor.close()
-        connection.close()
-
-        data={
-            'options': {
-                'rental_type': rental_type, 
-                'land_using_type_for_urban': land_using_type_for_urban,
-                'land_using_type_for_non_urban': land_using_type_for_non_urban,
-                'non_urban_land_classification': non_urban_land_classification},
-            'data': data
-        }
-
-        return render_template('modify_data.html', data=data)
+    if request.method == 'POST':
+        session.clear()
+        data = request.json
+        session['serial_number'] = data['serial_number']
+        session['address'] = data['address']
+        session['query'] = data['query']
+        return jsonify({'success': True})
     else:
-        return "Failed to connect to the database", 500
+        columns = ['都市土地使用分區',
+            '非都市土地使用分區',
+            '非都市土地使用編定',
+            '租賃年月日',
+            '租賃筆棟數',
+            '主要用途',
+            '建物現況格局_房',
+            '建物現況格局_廳',
+            '建物現況格局_衛',
+            '建物現況格局_隔間',
+            '有無管理組織',
+            '有無附傢俱',
+            '總額元',
+            '車位總額元',
+            '車位類別',
+            '備註',
+            '出租型態',
+            '有無管理員',
+            '有無電梯',
+            '附屬設備']
+
+        query = f"""
+            SELECT
+                {', '.join(columns)}
+            FROM
+                lvr_land_c
+            WHERE
+                serial_number = "{session.get('serial_number',{})}" AND 土地位置建物門牌 = "{session.get('address',{})}";
+        """
+
+        connection = get_db_connection()
+        if connection:
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute("SELECT DISTINCT 出租型態 FROM lvr_land_c")
+            rental_type = cursor.fetchall()
+            cursor.execute("SELECT DISTINCT 都市土地使用分區 FROM lvr_land_c")
+            land_using_type_for_urban = cursor.fetchall()
+            cursor.execute("SELECT DISTINCT 非都市土地使用分區 FROM lvr_land_c")
+            land_using_type_for_non_urban = cursor.fetchall()
+            cursor.execute("SELECT DISTINCT 非都市土地使用編定 FROM lvr_land_c")
+            non_urban_land_classification = cursor.fetchall()
+            cursor.execute(query)
+            data = cursor.fetchall()
+            cursor.close()
+            connection.close()
+
+            data={
+                'options': {
+                    'rental_type': rental_type, 
+                    'land_using_type_for_urban': land_using_type_for_urban,
+                    'land_using_type_for_non_urban': land_using_type_for_non_urban,
+                    'non_urban_land_classification': non_urban_land_classification},
+                'data': data
+            }
+
+            return render_template('modify_data.html', data=data)
+        else:
+            return "Failed to connect to the database", 500
 
 @app.route('/update_data', methods=['POST'])
 def update_data():
@@ -605,6 +605,21 @@ def update_data():
         return render_template('alert_msg.html',data={'msg': True,'dir':'/results'})
     else:
         return "Failed to connect to the database", 500
+
+@app.route('/query_entry', methods=['POST','GET'])
+def query_entry():
+    if request.method == 'GET':
+        return render_template('query_entry.html')
+    elif request.method == 'POST':
+        connection = get_db_connection();
+        if connection:
+            query = request.form.get('query')
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(query)
+            res = cursor.fetchall()
+            return f"<br><link rel='stylesheet' href='static/style.css'><button class='button back-button' onclick='window.history.back()'>Go back</button><br><br>{res}"
+        else:
+            return "Failed to connect to the database", 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
