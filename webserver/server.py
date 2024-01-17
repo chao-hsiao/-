@@ -8,7 +8,7 @@ app.secret_key = 'secret'
 
 # Retrieve database credentials from environment variables
 db_host = os.getenv('MYSQL_HOST')  # Name of the environment variable for the database host
-db_user = os.getenv('MYSQL_USERMYSQL_PASSWORD')  # Name of the environment variable for the database user
+db_user = os.getenv('MYSQL_USER')  # Name of the environment variable for the database user
 db_password = os.getenv('MYSQL_PASSWORD')  # Name of the environment variable for the database password
 db_name = os.getenv('MYSQL_DB')  # Name of the environment variable for the database name
 
