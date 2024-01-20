@@ -366,7 +366,7 @@ def upload():
         connection.commit()
         cursor.close()
         connection.close()
-        return render_template('alert_msg.html',{'msg':True, 'dir':'/'})
+        return render_template('alert_msg.html', data={'msg':True, 'dir':'/'})
     else:
         return "Failed to connect to the database", 500
 
@@ -413,7 +413,7 @@ def cont():
             connection.commit()
             cursor.close()
             connection.close()
-            return render_template('alert_msg.html',msg=True)
+            return render_template('alert_msg.html',data={'msg':True, 'dir':'/'})
         else:
             return "Failed to connect to the database", 500
     
